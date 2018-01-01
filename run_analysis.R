@@ -47,17 +47,23 @@ run_analysis <- function() {
         }
         
         # 5: Create dataframe of averages of each subject-activity pair and compute averages
-        ave_results <- as.data.frame(matrix(nrow=180,ncol=88)) 
+        subjects <- sort(unique(all_results$subject))
+        nsub <- length(subjects)
+        activities <- sort(unique(all_results$activity))
+        nact <- length(activities)
+        ave_results <- as.data.frame(matrix(nrow=nsub*nact,ncol=ncol(all_results))) 
                 colnames(ave_results) <- colnames(all_results) 
-                ave_results$subject = rep(1:30,each=6)
-                ave_results$activity = rep(act_labels$V2)
-        for (i in 1:180) {
+                ave_results$subject = rep(subjects,each=6)
+                ave_results$activity = rep(activities)
+        for (i in 1:nrow(ave_results)) {
                 temp <- all_results[all_results$subject == ave_results[i,1]
                                     & all_results$activity == ave_results[i,2],]
                 ave_results[i,3:ncol(ave_results)] <- lapply(temp[,3:ncol(temp)], mean)
         }
         
-        # 6: Return results to the global environment
+        # 6: Return results to the global environment and write average results
         all_results <<- all_results
         ave_results <<- ave_results
+        return(head(ave_results[,1:5],12))
+        write.table(ave_results, "ave_results.txt", row.names = FALSE)
 }
