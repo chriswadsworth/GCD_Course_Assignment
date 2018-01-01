@@ -19,9 +19,12 @@ if (!file.exists("./dataset.zip")) {
 ### Step 1:  Read, clean, and index the desired variable names
 
 * Next, read the features table, clean the variable names, and find the variables that correspond to either mean or standard deviation (std).
-        * Use gsub to remove parentheses and replace underscores and dashes with periods.  Note, that the values in x_train and x_test later are normalized; thus, there are no units.
-        * Use grep to return indices of variable names related to either mean or std.
-        * Finally, return indices of both mean- or std-related variables as mean_std_related.
+
+* Use gsub to remove parentheses and replace underscores and dashes with periods.  Note, that the values in x_train and x_test later are normalized; thus, there are no units.
+
+* Use grep to return indices of variable names related to either mean or std.
+
+* Finally, return indices of both mean- or std-related variables as mean_std_related.
 
 ```{r}
 features <- read.table("./UCI HAR Dataset/features.txt")
@@ -35,6 +38,7 @@ mean_std_related <- sort(union(mean_related, std_related))
 ### Step 2:  Read the test and train results
 
 * Read the test results (X_test), set the variable names from the features table, and return only those columns that are related to mean or std.
+
 * Repeat for the train results.
 
 ```{r}
@@ -92,14 +96,20 @@ for (i in 1:6){
 * Identify unique activities and number of unique activities (nact)
 
 * Create empty dataframe (ave_results) with nsub x nact number of rows and same number of columns as all_results
-        * Set column names of ave_results to be the same as all_results
-        * Fill subject variable with six repetitions of each subject
-        * Fill activity variable with repetitions of each activity
-        * End result is all subject-activity pairs being represented once in ave_results
+
+* Set column names of ave_results to be the same as all_results
+
+* Fill subject variable with six repetitions of each subject
+
+* Fill activity variable with repetitions of each activity
+
+* End result is all subject-activity pairs being represented once in ave_results
 
 * The for loop fills in the remainder of the ave_results dataframe.
-        * A temporary variable ("temp") that is the subset of all_results for the subject and activity of the row i in ave_results.
-        * The unfilled variables in the ith row of ave_results are filled with the mean of the corresponding columns in temp using lapply.
+
+* A temporary variable ("temp") that is the subset of all_results for the subject and activity of the row i in ave_results.
+
+* The unfilled variables in the ith row of ave_results are filled with the mean of the corresponding columns in temp using lapply.
 
 ```{r}
 subjects <- sort(unique(all_results$subject))
