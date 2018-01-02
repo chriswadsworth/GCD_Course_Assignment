@@ -52,7 +52,8 @@ run_analysis <- function() {
         activities <- sort(unique(all_results$activity))
         nact <- length(activities)
         ave_results <- as.data.frame(matrix(nrow=nsub*nact,ncol=ncol(all_results))) 
-                colnames(ave_results) <- colnames(all_results) 
+                colnames(ave_results) <- colnames(all_results)
+                colnames(ave_results)[3:ncol(ave_results)] <- paste0("avg.",colnames(ave_results)[3:ncol(ave_results)])
                 ave_results$subject = rep(subjects,each=6)
                 ave_results$activity = rep(activities)
         for (i in 1:nrow(ave_results)) {
