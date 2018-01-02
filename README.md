@@ -97,7 +97,7 @@ for (i in 1:6){
 
 * Create empty dataframe (ave_results) with nsub x nact number of rows and same number of columns as all_results
 
-* Set column names of ave_results to be the same as all_results
+* Set column names of ave_results to be the same as all_results before appending "avg." to the beginning of the variable names after activity.
 
 * Fill subject variable with six repetitions of each subject
 
@@ -118,6 +118,7 @@ activities <- sort(unique(all_results$activity))
 nact <- length(activities)
 ave_results <- as.data.frame(matrix(nrow=nsub*nact,ncol=ncol(all_results))) 
 colnames(ave_results) <- colnames(all_results) 
+colnames(ave_results)[3:ncol(ave_results)] <- paste0("avg.",colnames(ave_results)[3:ncol(ave_results)])
 ave_results$subject = rep(subjects,each=6)
 ave_results$activity = rep(activities)
 for (i in 1:nrow(ave_results)) {
